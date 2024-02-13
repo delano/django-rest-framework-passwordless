@@ -4,6 +4,8 @@ from rest_framework.settings import APISettings
 USER_SETTINGS = getattr(settings, 'PASSWORDLESS_AUTH', None)
 
 DEFAULTS = {
+    # Used for generating URLs in emails
+    'PASSWORDLESS_BASE_URI': "localhost:8000",
 
     # Allowed auth types, can be EMAIL, MOBILE, or both.
     'PASSWORDLESS_AUTH_TYPES': ['EMAIL'],
