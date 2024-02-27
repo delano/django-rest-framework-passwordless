@@ -37,14 +37,14 @@ def check_unique_tokens(sender, instance, **kwargs):
         if isinstance(instance, CallbackToken):
             unique = False
             tries = 0
-                
+
             if CallbackToken.objects.filter(key=instance.key, is_active=True).exists():
                 # Try N(default=3) times before giving up.
                 while tries < api_settings.PASSWORDLESS_TOKEN_GENERATION_ATTEMPTS:
                     tries = tries + 1
                     new_key = generate_numeric_token()
                     instance.key = new_key
-                
+
                     if not CallbackToken.objects.filter(key=instance.key, is_active=True).exists():
                         # Leave the loop if we found a valid token that doesn't exist yet.
                         unique = True
@@ -57,7 +57,7 @@ def check_unique_tokens(sender, instance, **kwargs):
                 # A unique value was found immediately.
                 pass
 
-        
+
     else:
         # save is called on an already existing token to update it. Such as invalidating it.
         # in that case there is no need to check for the key. This way we both avoid an unneccessary db hit
@@ -97,7 +97,7 @@ def update_alias_verification(sender, instance, **kwargs):
                         setattr(instance, email_verified_field, False)
                         if api_settings.PASSWORDLESS_AUTO_SEND_VERIFICATION_TOKEN is True:
                             email_subject = api_settings.PASSWORDLESS_EMAIL_VERIFICATION_SUBJECT
-                            email_plaintext = api_settings.PASSWORDLESS_EMAIL_VERIFICATION_PLAINTEXT_MESSAGE
+                            email_plaintext = api_settings.PASSWORDLESS_EMAIL_VERIFICATION_PLAINTEXT_TEMPLATE_NAME
                             email_html = api_settings.PASSWORDLESS_EMAIL_VERIFICATION_TOKEN_HTML_TEMPLATE_NAME
                             message_payload = {'email_subject': email_subject,
                                                'email_plaintext': email_plaintext,

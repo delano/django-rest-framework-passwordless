@@ -235,7 +235,7 @@ DEFAULTS = {
 
     # URL Prefix for Authentication Endpoints
     'PASSWORDLESS_AUTH_PREFIX': 'auth/',
-    
+
     #  URL Prefix for Verification Endpoints
     'PASSWORDLESS_VERIFY_PREFIX': 'auth/verify/',
 
@@ -265,7 +265,7 @@ DEFAULTS = {
     'PASSWORDLESS_EMAIL_SUBJECT': "Your Login Token",
 
     # A plaintext email message overridden by the html message. Takes one string.
-    'PASSWORDLESS_EMAIL_PLAINTEXT_MESSAGE': "Enter this token to sign in: %s",
+    'PASSWORDLESS_EMAIL_PLAINTEXT_TEMPLATE_NAME': "passwordless_default_token_email.txt",
 
     # The email template name.
     'PASSWORDLESS_EMAIL_TOKEN_HTML_TEMPLATE_NAME': "passwordless_default_token_email.html",
@@ -289,7 +289,7 @@ DEFAULTS = {
     'PASSWORDLESS_EMAIL_VERIFICATION_SUBJECT': "Your Verification Token",
 
     # A plaintext verification email message overridden by the html message. Takes one string.
-    'PASSWORDLESS_EMAIL_VERIFICATION_PLAINTEXT_MESSAGE': "Enter this verification code: %s",
+    'PASSWORDLESS_EMAIL_VERIFICATION_PLAINTEXT_TEMPLATE_NAME': "passwordless_default_verification_token_email.txt",
 
     # The verification email template name.
     'PASSWORDLESS_EMAIL_VERIFICATION_TOKEN_HTML_TEMPLATE_NAME': "passwordless_default_verification_token_email.html",
@@ -306,7 +306,7 @@ DEFAULTS = {
     # the token itself, the second is a boolean value representating whether
     # the token was newly created.
     'PASSWORDLESS_AUTH_TOKEN_CREATOR': 'drfpasswordless.utils.create_authentication_token',
-    
+
     # What function is called to construct a serializer for drf tokens when
     # exchanging a passwordless token for a real user auth token.
     'PASSWORDLESS_AUTH_TOKEN_SERIALIZER': 'drfpasswordless.serializers.TokenResponseSerializer',
@@ -316,7 +316,7 @@ DEFAULTS = {
 
     # configurable function for sending email
     'PASSWORDLESS_EMAIL_CALLBACK': 'drfpasswordless.utils.send_email_with_callback_token',
-    
+
     # configurable function for sending sms
     'PASSWORDLESS_SMS_CALLBACK': 'drfpasswordless.utils.send_sms_with_callback_token',
 
