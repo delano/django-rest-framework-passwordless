@@ -1,8 +1,9 @@
 import logging
 from django.utils.module_loading import import_string
 from rest_framework import parsers, renderers, status
+
 from rest_framework.response import Response
-from rest_framework.permissions import AllowAny, IsAuthenticated 
+from rest_framework.permissions import AllowAny, IsAuthenticated
 from rest_framework.views import APIView
 from drfpasswordless.models import CallbackToken
 from drfpasswordless.settings import api_settings
@@ -77,7 +78,7 @@ class ObtainEmailCallbackToken(AbstractBaseObtainCallbackToken):
     token_type = CallbackToken.TOKEN_TYPE_AUTH
 
     email_subject = api_settings.PASSWORDLESS_EMAIL_SUBJECT
-    email_plaintext = api_settings.PASSWORDLESS_EMAIL_PLAINTEXT_MESSAGE
+    email_plaintext = api_settings.PASSWORDLESS_EMAIL_PLAINTEXT_TEMPLATE_NAME
     email_html = api_settings.PASSWORDLESS_EMAIL_TOKEN_HTML_TEMPLATE_NAME
     message_payload = {"email_subject": email_subject,
                        "email_plaintext": email_plaintext,
@@ -107,7 +108,7 @@ class ObtainEmailVerificationCallbackToken(AbstractBaseObtainCallbackToken):
     token_type = CallbackToken.TOKEN_TYPE_VERIFY
 
     email_subject = api_settings.PASSWORDLESS_EMAIL_VERIFICATION_SUBJECT
-    email_plaintext = api_settings.PASSWORDLESS_EMAIL_VERIFICATION_PLAINTEXT_MESSAGE
+    email_plaintext = api_settings.PASSWORDLESS_EMAIL_VERIFICATION_PLAINTEXT_TEMPLATE_NAME
     email_html = api_settings.PASSWORDLESS_EMAIL_VERIFICATION_TOKEN_HTML_TEMPLATE_NAME
     message_payload = {
         "email_subject": email_subject,

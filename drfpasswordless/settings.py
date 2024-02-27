@@ -42,7 +42,7 @@ DEFAULTS = {
     'PASSWORDLESS_EMAIL_SUBJECT': "Your Login Token",
 
     # A plaintext email message overridden by the html message. Takes one string.
-    'PASSWORDLESS_EMAIL_PLAINTEXT_MESSAGE': "Enter this token to sign in: %s",
+    'PASSWORDLESS_EMAIL_PLAINTEXT_TEMPLATE_NAME': "passwordless_default_token_email.txt",
 
     # The email template name.
     'PASSWORDLESS_EMAIL_TOKEN_HTML_TEMPLATE_NAME': "passwordless_default_token_email.html",
@@ -66,7 +66,7 @@ DEFAULTS = {
     'PASSWORDLESS_EMAIL_VERIFICATION_SUBJECT': "Your Verification Token",
 
     # A plaintext verification email message overridden by the html message. Takes one string.
-    'PASSWORDLESS_EMAIL_VERIFICATION_PLAINTEXT_MESSAGE': "Enter this verification code: %s",
+    'PASSWORDLESS_EMAIL_VERIFICATION_PLAINTEXT_TEMPLATE_NAME': "passwordless_default_verification_token_email.txt",
 
     # The verification email template name.
     'PASSWORDLESS_EMAIL_VERIFICATION_TOKEN_HTML_TEMPLATE_NAME': "passwordless_default_verification_token_email.html",

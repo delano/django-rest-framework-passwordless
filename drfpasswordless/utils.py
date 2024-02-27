@@ -116,11 +116,18 @@ def inject_template_context(context):
 
 def send_email_with_callback_token(user, email_token, **kwargs):
     """
-    Sends a Email to user.email.
+    Send an email to a user with a callback token.
 
-    Passes silently without sending in test environment
+    Note: Passes silently without sending in test environment
+
+    Args:
+        user: The user object to whom the email will be sent.
+        email_token: The callback token that will be included in the email.
+        **kwargs: Additional keyword arguments that can be passed to customize the email subject, plaintext message, and HTML template.
+
+    Returns:
+        bool: True if the email is sent successfully, False otherwise.
     """
-
     try:
         if api_settings.PASSWORDLESS_EMAIL_NOREPLY_ADDRESS:
             # Make sure we have a sending address before sending.
@@ -129,7 +136,7 @@ def send_email_with_callback_token(user, email_token, **kwargs):
             email_subject = kwargs.get('email_subject',
                                        api_settings.PASSWORDLESS_EMAIL_SUBJECT)
             email_plaintext = kwargs.get('email_plaintext',
-                                         api_settings.PASSWORDLESS_EMAIL_PLAINTEXT_MESSAGE)
+                                         api_settings.PASSWORDLESS_EMAIL_PLAINTEXT_TEMPLATE_NAME)
             email_html = kwargs.get('email_html',
                                     api_settings.PASSWORDLESS_EMAIL_TOKEN_HTML_TEMPLATE_NAME)
 
@@ -140,23 +147,26 @@ def send_email_with_callback_token(user, email_token, **kwargs):
                 'host': api_settings.PASSWORDLESS_BASE_URI,
             })
             html_message = loader.render_to_string(email_html, context,)
+            plaintext_message = loader.render_to_string(email_plaintext, context,)
             send_mail(
                 email_subject,
-                email_plaintext % email_token.key,
+                plaintext_message,
                 api_settings.PASSWORDLESS_EMAIL_NOREPLY_ADDRESS,
                 [getattr(user, api_settings.PASSWORDLESS_USER_EMAIL_FIELD_NAME)],
                 fail_silently=False,
                 html_message=html_message,)
 
         else:
-            logger.debug("Failed to send token email. Missing PASSWORDLESS_EMAIL_NOREPLY_ADDRESS.")
+            logger.error("Failed to send token email. Missing PASSWORDLESS_EMAIL_NOREPLY_ADDRESS.")
             return False
         return True
 
     except Exception as e:
-        logger.debug("Failed to send token email to user: %d."
+        logger.error("Failed to send token email to user: %s. "
                   "Possibly no email on user object. Email entered was %s" %
                   (user.id, getattr(user, api_settings.PASSWORDLESS_USER_EMAIL_FIELD_NAME)))
+
+        logger.error("%s: %s" % (type(e), str(e)))
         logger.debug(e)
         return False
 
